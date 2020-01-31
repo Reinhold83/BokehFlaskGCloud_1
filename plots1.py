@@ -69,6 +69,7 @@ def houseStockPlot():
     a2.legend.background_fill_alpha=None
     a2.legend.border_line_alpha=0
     a2.legend.label_text_font_size = "11px"
+    a2.xaxis.major_label_text_font_style = 'bold'
     a2.grid.grid_line_color=None
     a2.toolbar.autohide = True
     return a2
