@@ -5,13 +5,39 @@
   <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
   <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
   {{ script|safe }}
+  {{ script1|safe }}
  </head>
  <body>
-   <div>
-       <h1>Bokeh sample keep trying</h1>
-           <div class='bokeh'>
-           {{ div|safe }}
-           </div>
-   </div>
+ <table width=100% height=95%>
+ <tr><td width=50%>
+<h2 style = "margin: 10px" 'justify'>
+<center>
+<strong>Analysis and visualisation of the Irish Housing Market</strong> </h2> </center>
+<italic><div style='margin: 10px' 'right'>Author: Raphael Nogueira</div><br></italic>
+<div style='margin: 10px' 'justify'>
+<strong>Abstract:</strong> This paper is an exploration of several datasets from the Central Statistical Office(CSO)
+amongst other bodies. The aim is to understand the reasons for the housing crisis and the implications
+of the housing crisis in Ireland. The projects aim is to find a possible solution from the insights gathered.
+</div>
+ <center>
+<h2 style='font-italic'>
+ Introduction </centre> </h2> 
+ <div  style = "margin: 10px" 'justify'>
+    The housing market in Ireland has been facing very distinct curves in the past two decades along with a big recession that reached its peak in 2008 to a descending curve since,
+    by 2013 the housing market started to reverse to a positive growth, although this positive variance has not been strong enough to solve the crisis as the analyses has shown, yet this is not a real portrait of the issue, as a majority of the tenants are not officially registered in The Private Tenancies Board(PRTB). From the analyses of the Census of 2016 the CSO has concluded that there are 2.48 people per private property in Dublin City, although news as “Fifteen people sharing one room in house with 70 tenants” in Dublin City from the Independent.ie in 2017 are actually not as alarming.
+    As it is a market the analyses and visualization will be divided between supply and demand using Python 3 with Jupyter Notebook, pandas, numpy, Bokeh, Matplotlib, Seaborn, Flask among others to find insights to support a solution to the issue.
+</div>
+<center>
+<div class='bokeh'>
+    {{ div|safe }}
+    {{ div1|safe}}
+</div>
+</center>
+
   </body>
-</html>
+</html></td>
+<td width=50%>
+<div>
+      
+  
+</td></tr></table>
