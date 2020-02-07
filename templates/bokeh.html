@@ -1,43 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+       <!-- Bootstrap includes-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+       <!-- Bokeh includes-->
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
+    {{ script|safe }}
+    {{ script1|safe }}
+    {{ script2|safe }}
+    {{ script3|safe}}
+    {{ script4|safe}}
+ 
+ 
  <head>
-   <!-- Bokeh includes-->
-  <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
-  {{ script|safe }}
-  {{ script1|safe }}
- </head>
- <body>
- <table width=100% height=95%>
- <tr><td width=50%>
-<h2 style = "margin: 9px" 'justify'>
-<center>
-<strong>Analysis and visualisation of the Irish Housing Market</strong> </h2> </center>
-<italic><div style='margin: 10px' 'right'>Author: Raphael Nogueira</div><br></italic>
-<div style='margin: 9px' 'justify'>
-<strong>Abstract:</strong> This article is an exploration of several datasets from the Central Statistical Office(CSO)
+<h2 style='margin-left: 10px; margin-right:10px; text-align: center; font-style: italic; font-weight: bold'>
+Analyses and visualisation of the Irish Housing Market</h2>
+<div style='margin-left: 10px; margin-right:280px; text-align: right; font-weight: bold; font-size: 12px; font-style: italic;' >Author: Raphael Nogueira</div><br>
+<p class='text-muted', style='font-size:17px; text-align: justify; margin-left: 10px; margin-right:10px;'>
+<span style='color: #555555'><strong>Abstract:</strong></span> This article is an exploration of several datasets from the Central Statistical Office(CSO)
 amongst other bodies. The aim is to understand the reasons for the housing crisis and the implications
 of the housing crisis in Ireland. The projects aim is to find a possible solution from the insights gathered.
-</div>
- <center>
-<h2 style='font-italic'>
- Introduction </centre> </h2> 
- <div  style = "margin: 10px" 'justify'>
-    The housing market in Ireland has been facing very distinct curves in the past two decades along with a big recession that reached its peak in 2008 to a descending curve since,
-    by 2013 the housing market started to reverse to a positive growth, although this positive variance has not been strong enough to solve the crisis as the analyses has shown, yet this is not a real portrait of the issue, as a majority of the tenants are not officially registered in The Private Tenancies Board(PRTB). From the analyses of the Census of 2016 the CSO has concluded that there are 2.48 people per private property in Dublin City, although news as “Fifteen people sharing one room in house with 70 tenants” in Dublin City from the Independent.ie in 2017 are actually not as alarming.
-    As it is a market the analyses and visualization will be divided between supply and demand using Python 3 with Jupyter Notebook, pandas, numpy, Bokeh, Matplotlib, Seaborn, Flask among others to find insights to support a solution to the issue.
-</div>
+</p>
+ </head>
+
+
+ <body>
+ <table width=100% height=95%>
+ <tr><td width=45%>
+ <h5 style='margin: 7px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Introduction </h5>
+ <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+    The housing market in Ireland has been facing very distinct curves in the past two decades along with a big recession that reached its peak in 2008 to a descending curve since, by 2013 the housing market started to reverse to a positive growth,
+    although this positive variance has not been strong enough to solve the crisis as the analyses has shown, yet this is not a real portrait of the issue, as a majority of the tenants are not officially registered in The Private Tenancies Board(PRTB). From the analyses of the Census of 2016 the CSO has concluded that there are 2.48 people per private property in Dublin City,
+    although news as “Fifteen people sharing one room in house with 70 tenants” in Dublin City from the Independent.ie in 2017 are actually not as alarming.
+    As it is a market the analyses and visualization will be divided between supply and demand using Python 3 with Jupyter Notebook, pandas, numpy, Bokeh, Matplotlib, Seaborm, Flask among others to find insights to support a solution to the issue
+</p>
+
+<h5 style='margin: 10px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Analyses </h5>
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Supply </h5>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'> House Stock </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: 1px;'>
+The CSO has been providing an extensive amount of data of the house stock in Ireland from the insights taken of Census in over two decades.
+The house stock in Ireland had a consistent growth until 2011 when it shifts to a very passive period; in contrast Dublin had a low growth throughout the years.
+</p>
 <center>
 <div class='bokeh'>
     {{ div|safe }}
+</div>
+</center> <br>
+
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Vacant Properties </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: -1px;'>
+The number of vacant properties in Ireland grew 85.7% from 2002 to 2006 to a negative growth of 15.2% from 2011 to 2016.</p>
+
+<center>
+<div class='bokeh'>
     {{ div1|safe}}
 </div>
 </center>
+<br><br><br>
 
-  </body>
-</html></td>
-<td width=50%>
-<div>
-      
+<td width=45%; valign='top';>
+
+
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+In 2016 12.25% of the house stock was vacant, from those vacant properties 47.85% were rural, the long term properties and the deceased properties reached over 5,000 vacant properties each, 
+and from an urban perspective it shifts to a majority of properties for sale or rent, 22.84%. Proportionally Dublin had a considerable amount of vacant properties for rental compared to the rest of the country, 
+when you consider that Dublin had 26.5% of the properties in Ireland in 2016, despite of this amount Dublin had nearly half of the properties for sale in market in 2016. These numbers shift to a negative growth 
+as the housing market had significant growth of existing properties registered in the new transactions.</p>
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Properties Transactions </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom:0px'>
+The overall number of transactions of properties in Ireland had a variance of 190% from 2010 to 2018.</p>
+<center>
+<div class='bokeh'>
+    {{ div2|safe}}
+</div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+The existing house transactions had a variance of 216.9%, as there were still a considerable number of vacant properties available in the market, while the transactions 
+of new properties variance was not as prominent with 54.6%. Dublin did follow a different path with a variance of 284.7% for new properties transactions and 162.9% for
+ existing properties, mostly reflexes of a saturated housing market.</p>
+
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New properties registered</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+The Irish housing market has been troubling since the recession to reach a sustainable growth, as the chart below verifies.</p>
+
+<center>
+<div class='bokeh'>
+    {{ div3|safe}}
+</div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 9px;'>
+In 2011 Dublin had only 140 new properties registered reaching its lowest point since from the data available, while Ireland reached its lowest point in 2012 with only 
+627 new properties registered. There was no significant variance until 2016 when the government along with other bodies launched numerous projects with possible “solutions”.</p>
+</td>
+
+
+<table width=100%; height=95%;>
+<div style='text-align: center; color: black; width=100%'>_______________________________Page 2_______________________________</div>
+ <tr><td width=45%; valign='top';>
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New non-occupier buyers</h5>
+<center>
+<div class='bokeh'>
+    {{ div4|safe}}
+</div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+Another relevant insight this dataset provides is the high correlation between new and existing properties transactions.
+There are various articles published that stressed the growth of cash-only sales in Ireland, although there is not enough data available to verify this tendency, 
+despite that the CSO also provided data on the number of buyers that are non-occupier, non-householder or former owner occupier(2nd mortgage) throughout the years,
+ i.e., those are utilizing the housing market as an investment and influencing the rental and sales prices to increase. Unite Nations has sent a letter to the Irish government describing the situation as <spam style='font-style: italic'>“moderately unaffordable”</spam>.
+</p>
+
+
+<td width=45%; valign='top';>
+
+</tb>
+</body>
+
+
   
-</td></tr></table>
+
+</html>

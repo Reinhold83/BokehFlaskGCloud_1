@@ -26,7 +26,7 @@ def vacantPlot():
     lDict = {'For Sale': xLabel, 'Deceased':xLabel, 'Vacant Long Term':xLabel, 'Rental Property':xLabel}
     source = ColumnDataSource(data=dict(x= list(dfv.index.values), y=dfv['Dublin&Suburbs'], y1=dfv['Other cities'], y2=dfv['Rural']))
 
-    p = figure(x_range=FactorRange(*lDict), plot_height=350, plot_width=550, title='Vacant properties in Ireland 2016', x_axis_label=None, y_axis_label='amount of vacant properties')
+    p = figure(x_range=FactorRange(*lDict), plot_height=350, plot_width=550, title='Vacant properties in Ireland 2016', x_axis_label=None, y_axis_label='amount of vacant properties', tools = 'pan, wheel_zoom, box_zoom, reset')
     hover = HoverTool()
     hover.tooltips=[('Vacant properties', 'Dublin @y / Others @y1 / Rural @y2')]
     p.add_tools(hover)
@@ -56,7 +56,11 @@ def houseStockPlot():
     df.columns = ['Year', 'Dublin vacant', 'Ireland vacant', 'Dublin', 'Ireland']
     ll = list(df.columns[1:])
     source = ColumnDataSource(data=dict(x=df.Year.values,y=df['Ireland'], y1=df['Dublin'], y2=df['Ireland vacant'], y3=df['Dublin vacant']))
-    a2 = figure(plot_width=550, plot_height=350, title='Irish House Stock', tools = 'pan, wheel_zoom, box_zoom, reset, hover') #, tooltips=ToolTips)
+    a2 = figure(plot_width=550, plot_height=350, title='Irish House Stock', tools = 'pan, wheel_zoom, box_zoom, reset') #, tooltips=ToolTips)
+    hover = HoverTool()
+    hover.tooltips=[('Ireland', '@y'), ('Dublin','@y1'), ('Ireland vancant', '@y2'), ('Dublin vacant','@y3')]
+    a2.add_tools(hover)
+    
     colors = viridis(4)
     a2.varea_stack(['y3','y2','y1','y'], x='x', source=source, color=colors[::-1], legend=ll, muted_alpha=0.2)
     a2.legend.location='top_left'
@@ -73,4 +77,102 @@ def houseStockPlot():
     a2.grid.grid_line_color=None
     a2.toolbar.autohide = True
     return a2
+
+def Transactions():
+    df = pd.read_csv('BokehApp/Data/HT_SalesAll.csv', delimiter='\t')
+    df.reset_index(inplace=True)
+    df = df[['Year','Dublin New', 'Ireland New','Dublin Existing','Ireland Existing']]
+    df.set_index('Year', inplace=True)
+    varpti = ['Dublin New', 'Ireland New', 'Dublin Existing','Ireland Existing']
+    #the value of the y axis has to be in str format
+    yearspti = '2010','2011','2012', '2013', '2014', '2015', '2016', '2017', '2018' #df3.index.values.tolist()
+    xrange = df.values.max()*1.01
+    sourcepti = ColumnDataSource(data=dict(x=yearspti, y=df['Dublin New'], y1=df['Ireland New'],y2=df['Dublin Existing'], y3=df['Ireland Existing']))
+    pti = figure(y_range=yearspti, x_range=(0, xrange), plot_height=350, plot_width=550, title='Properties Transactions in Ireland', tools='pan, wheel_zoom, box_zoom, reset')
+    pti.hbar(y=dodge('x', -0.2, range=pti.y_range), right='y', height=0.15, source=sourcepti, color='#440154', legend=value('Dublin New'))
+    pti.hbar(y=dodge('x', 0, range=pti.y_range), right='y1', height=0.15, source=sourcepti, color='#30678D', legend=value('Ireland New'))
+    pti.hbar(y=dodge('x', 0.2, range=pti.y_range), right='y2', height=0.15, source=sourcepti, color='#35B778', legend=value('Dublin Exsiting')) 
+    pti.hbar(y=dodge('x', 0.4, range=pti.y_range), right='y3', height=0.15, source=sourcepti, color='#FDE724', legend=value('Ireland Exsiting')) 
+    
+    hoverpti = HoverTool()
+    hoverpti.tooltips=[('Dubin New', '@y'), ('Ireland New', '@y1'), ('Dublin Existing', '@y2'), ('Ireland Existing', '@y3')]
+    pti.add_tools(hoverpti)
+
+    pti.legend.location='bottom_right'
+    pti.y_range.range_padding = 0.02
+    pti.grid.grid_line_color = None
+    tick_labels_pti = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K'}
+    pti.xaxis.major_label_overrides = tick_labels_pti
+    pti.legend.background_fill_alpha=None
+    pti.legend.border_line_alpha=0
+    pti.legend.label_text_font_size = "11px"
+    pti.legend.click_policy="hide"
+    pti.title.text_font_size = '15px'
+    #pti.axis.major_label_text_font_style = 'bold'
+    pti.xaxis.major_label_text_font_style = 'bold'
+    pti.toolbar.autohide = True
+    return pti
+
+def NewRegistered():
+    dfnr = pd.read_csv('BokehApp/Data/NewRegHouses_CLEANED.csv', delimiter='\t', index_col='Year_RNH')
+    xnr = '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
+    pnr = figure(x_range=xnr, plot_height=350, plot_width=550, title='Number of new properties registered', tools='pan, wheel_zoom, box_zoom, reset')
+    sourcenr = ColumnDataSource(data= dict(x=xnr, y=dfnr['Ireland'], y1=dfnr['Dublin']))
+    pnr.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourcenr, legend=value('Ireland'))
+    pnr.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourcenr, legend=value('Dublin'))
+    pnr.circle(x='x', y='y', size=5, color='#B2DD2C', source=sourcenr, legend=value('Ireland'))
+    pnr.circle(x='x', y='y1', size=5, color='#35B778', source=sourcenr, legend=value('Dublin'))
+
+    hoverpnr = HoverTool()
+    hoverpnr.tooltips=[('Ireland', '@y'), ('Dublin', '@y1')]
+    pnr.add_tools(hoverpnr)
+
+    pnr.legend.location='top_right'
+    #pnr.y_range.range_padding = 0.02
+    pnr.xgrid.grid_line_color = None
+    tick_labels_pnr = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K', '60000':'60K'}
+    pnr.yaxis.major_label_overrides = tick_labels_pnr
+    #pnr.legend.background_fill_alpha=None
+    pnr.legend.border_line_alpha=0
+    pnr.legend.label_text_font_size = "11px"
+    pnr.legend.click_policy="hide"
+    pnr.title.text_font_size = '15px'
+    #pti.axis.major_label_text_font_style = 'bold'
+    pnr.xaxis.major_label_text_font_style = 'bold'
+    pnr.toolbar.autohide = True
+    return pnr
+
+def nonOccupiers():
+
+    dfn = pd.read_csv('BokehApp/Data/TT_nonOccupier.csv', delimiter='\t', index_col='Years')
+    dfnt = dfn[['Total Transactions', 'Total Non-Occupiers']]
+    rowX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
+    sourcent = ColumnDataSource(data=dict( x = rowX, y=dfnt['Total Transactions'], y1=dfnt['Total Non-Occupiers']))
+    pn = figure(x_range=rowX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend=value('Total Transactions'))
+    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend=value('Total Non-Occupiers'))
+    
+    pn.x_range.range_padding = 0.05
+    pn.legend.location = 'top_left'
+    hoverpn = HoverTool()
+    hoverpn.tooltips=[('Transactions', 'total @y / non-occupiers @y1')]
+    pn.add_tools(hoverpn)
+    tick_labelspn = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K', '60000':'60K'}
+    pn.yaxis.major_label_overrides = tick_labelspn
+    pn.legend.background_fill_alpha=None
+    pn.legend.border_line_alpha=0
+    pn.legend.label_text_font_size = "11px"
+    pn.y_range.end = dfnt.values.max()*1.1+1
+    pn.legend.click_policy="hide"
+    pn.title.text_font_size = '15px'
+    pn.xaxis.major_label_text_font_style = 'bold'
+    pn.grid.grid_line_color=None
+    pn.toolbar.autohide = True
+    return pn
+    #show(pn)
+
+
+
+
+
 
