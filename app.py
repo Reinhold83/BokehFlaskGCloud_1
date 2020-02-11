@@ -20,5 +20,6 @@ def bokeh():
     script3, div3 = components(NewRegistered())
     script4, div4 = components(nonOccupiers())
 
+
     return render_template('bokeh.html', script=script, div=div, script1=script1,
     div1=div1, script2=script2, div2=div2, script3= script3, div3=div3, script4=script4, div4=div4)

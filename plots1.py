@@ -1,12 +1,13 @@
 #imports
 import pandas as pd
 from bokeh.resources import INLINE
-from bokeh.plotting import figure, show
+from bokeh.plotting import figure, show, curdoc
 from bokeh.util.string import encode_utf8
 from bokeh.transform import dodge
 from bokeh.core.properties import value
 from bokeh.models import ColumnDataSource, HoverTool, PrintfTickFormatter, NumeralTickFormatter, FactorRange
 from bokeh.transform import factor_cmap
+from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
 from bokeh.resources import CDN
 from bokeh.embed import file_html
@@ -143,7 +144,7 @@ def NewRegistered():
     return pnr
 
 def nonOccupiers():
-
+    #bokeh_doc = curdoc()
     dfn = pd.read_csv('BokehApp/Data/TT_nonOccupier.csv', delimiter='\t', index_col='Years')
     dfnt = dfn[['Total Transactions', 'Total Non-Occupiers']]
     rowX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
@@ -168,8 +169,125 @@ def nonOccupiers():
     pn.xaxis.major_label_text_font_style = 'bold'
     pn.grid.grid_line_color=None
     pn.toolbar.autohide = True
-    return pn
+    #return pn
+    #show(pn)def NonOccupiers(): 
+    dfn1 = pd.read_csv('BokehApp/Data/TT_nonOccupier.csv', delimiter='\t', index_col='Years')
+    dfn3 = dfn1[['Former Owner-Occupier', 'Non-Occupier', 'Non-Household Buyer']]
+    rX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
+
+    srcn3 = ColumnDataSource(data=dict( x = rX,
+                                    y=dfn3['Former Owner-Occupier'],
+                                    y1=dfn3['Non-Occupier'],
+                                    y2=dfn3['Non-Household Buyer']))
+    pn3 = figure(x_range=rX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+
+    pn3.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcn3, legend=value('Former Owner-Occupier'))
+    pn3.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcn3, legend=value('Non-Occupier'))
+    pn3.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcn3, legend=value('Former Owner-Occupier'))
+    pn3.circle(x='x', y='y1', size=5, color='#440154', source=srcn3, legend=value('Non-Occupier'))
+    pn3.line(x='x', y='y2', line_width=2.5, line_color='#9DD93A', source=srcn3, legend=value('Non-Household Buyer'))
+    pn3.circle(x='x', y='y2', size=5, color='#365A8C', source=srcn3, legend=value('Non-Household Buyer'))
+
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+
+    pn3.legend.location = 'top_left'
+    hoverpn3 = HoverTool()
+    hoverpn3.tooltips=[('Former Owner', '@y'),('Non-Occupier', '@y1'), ('Non-Household', '@y2')]
+    pn3.add_tools(hoverpn3)
+    tick_labelspn3 = {'5000':'5K','10000':'10K','15000':'15K','20000':'20K','25000':'25K'}
+    pn3.yaxis.major_label_overrides = tick_labelspn3
+            #pn.xaxis.major_label_overrides = {'2010':'2010', '2011':'2011'}
+    #pn3.legend.background_fill_alpha=None
+    #pn3.legend.border_line_alpha=0
+    pn3.legend.label_text_font_size = "11px"
+            #pne.y_range.end = dfnt.values.max()*1.1+1
+            #pn.x_range.start = rowX*1.1+1
+    pn3.legend.click_policy="hide"
+    pn3.title.text_font_size = '15px'
+    pn3.xaxis.major_label_text_font_style = 'bold'
+    pn3.xgrid.grid_line_color=None
+    pn3.toolbar.autohide = True
+    #return pn3
+    #show(pn3)
+
+    dfne = pd.read_csv('BokehApp/Data/HT_NewExisiting.csv', delimiter='\t', index_col='Years')
+    rX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
+
+    srcne = ColumnDataSource(data=dict( x = rX,
+                                    y=dfne['Existing'],
+                                    y1=dfne['New']))
+    pne = figure(x_range=rX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+
+    pne.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcne, legend=value('Existing'))
+    pne.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcne, legend=value('New'))
+    pne.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcne, legend=value('Existing'))
+    pne.circle(x='x', y='y1', size=5, color='#35B778', source=srcne, legend=value('New'))
+
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+
+    pne.legend.location = 'top_left'
+    hoverpne = HoverTool()
+    hoverpne.tooltips=[('Transactions', 'Exisiting @y / New @y1')]
+    pne.add_tools(hoverpne)
+    tick_labelspne = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K'}
+    pne.yaxis.major_label_overrides = tick_labelspne
+            #pn.xaxis.major_label_overrides = {'2010':'2010', '2011':'2011'}
+    pne.legend.background_fill_alpha=None
+    pne.legend.border_line_alpha=0
+    pne.legend.label_text_font_size = "11px"
+            #pne.y_range.end = dfnt.values.max()*1.1+1
+            #pn.x_range.start = rowX*1.1+1
+    pne.legend.click_policy="hide"
+    pne.title.text_font_size = '15px'
+    pne.xaxis.major_label_text_font_style = 'bold'
+    pne.xgrid.grid_line_color=None
+    pne.toolbar.autohide = True
+    #show(pne)
+
+    dfn = pd.read_csv('BokehApp/Data/TT_nonOccupier.csv', delimiter='\t', index_col='Years')
+    dfnt = dfn[['Total Transactions', 'Total Non-Occupiers']]
+
+    rowX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
+
+    sourcent = ColumnDataSource(data=dict( x = rowX,
+                                        y=dfnt['Total Transactions'],
+                                        y1=dfnt['Total Non-Occupiers']))
+    pn = figure(x_range=rowX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+        #pn.x_range=rowX
+    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend=value('Total Transactions'))
+    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend=value('Total Non-Occupiers'))
+
+        #pn.x_range.factors = xstr
+        #x_range = FactorRange(factors=['2010', '2011', '2012','2013','2014','2015','2016','2017','2018'])
+    pn.x_range.range_padding = 0.05
+    pn.legend.location = 'top_left'
+    hoverpn = HoverTool()
+    hoverpn.tooltips=[('Transactions', 'total @y / non-occupiers @y1')]
+    pn.add_tools(hoverpn)
+    tick_labelspn = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K', '60000':'60K'}
+    pn.yaxis.major_label_overrides = tick_labelspn
+        #pn.xaxis.major_label_overrides = {'2010':'2010', '2011':'2011'}
+    pn.legend.background_fill_alpha=None
+    pn.legend.border_line_alpha=0
+    pn.legend.label_text_font_size = "11px"
+    pn.y_range.end = dfnt.values.max()*1.1+1
+        #pn.x_range.start = rowX*1.1+1
+    pn.legend.click_policy="hide"
+    pn.title.text_font_size = '15px'
+    pn.xaxis.major_label_text_font_style = 'bold'
+    pn.grid.grid_line_color=None
+    pn.toolbar.autohide = True
     #show(pn)
+    t1 = Panel(child=pn, title='Overview')
+    t2 = Panel(child=pne, title='Type of sale')
+    t3 = Panel(child=pn3, title='Type of buyer')
+    tabs = Tabs(tabs=[t1,t2,t3])
+    return tabs
+    #bokeh_doc.add_root(tabs)
+
+    #show(tabs)
 
 
 
