@@ -4,8 +4,10 @@ from bokeh.resources import INLINE
 from bokeh.plotting import figure, show, curdoc
 from bokeh.util.string import encode_utf8
 from bokeh.transform import dodge
+from math import pi
+from bokeh.transform import cumsum
 from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, HoverTool, PrintfTickFormatter, NumeralTickFormatter, FactorRange
+from bokeh.models import ColumnDataSource, HoverTool, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LabelSet
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -288,6 +290,55 @@ def nonOccupiers():
     #bokeh_doc.add_root(tabs)
 
     #show(tabs)
+
+def pie_chart():
+    dfn = pd.read_csv('BokehApp/Data/TT_nonOccupier1.csv', delimiter='\t', index_col='Years')
+    dfn1 = dfn[['Non-Occupiers(%)']]
+    dfn1['Color'] = viridis(len(dfn1.index.values))
+    dfn1['angle'] = dfn1['Non-Occupiers(%)']/dfn1['Non-Occupiers(%)'].sum() *2*pi
+
+    lpie = '41.96%', '25.26%', '26.35%', '24.59%', '20.9%' , '20.1%' , '20.58%', '22.11%', '22.95%'
+    dfn1['lpie'] = lpie
+    dfn1['lpie'] = dfn1['lpie'].str.pad(28, side='left')
+
+    rX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
+    srcpie = ColumnDataSource(data=dict(x=rX,
+                                       y=dfn1['Non-Occupiers(%)'],
+                                       c=dfn1['Color'],
+                                       a=dfn1['angle'],
+                                       l=dfn1['lpie']))
+
+    pie = figure(plot_height=350, plot_width=550, title='Total of Non-Occupiers buyers by year in %',
+               tools = 'pan, wheel_zoom, box_zoom, reset',  x_range=(-0.5, 0.9))
+    pie.wedge(x=0, y=1, radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
+             line_color='white', fill_color='c', legend='x', source=srcpie) #inner_radius=0.5
+
+
+    #pie.annular_wedge(x=0, y=0, inner_radius=0.2, outer_radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
+    #         line_color='white', fill_color='c', legend='x', source=srcpie)
+    hoverpie = HoverTool()
+    hoverpie.tooltips=[('Year', '@x'), ('%', '@y')]
+
+    labels = LabelSet(x=0, y=1, text='l', text_color='white', text_font_size='13px', text_align='left',
+            angle=cumsum('a', include_zero=True), source=srcpie, render_mode='canvas') # y_offset=50
+
+
+    pie.add_tools(hoverpie)
+    pie.axis.axis_label=None
+    pie.axis.visible=False
+    pie.grid.grid_line_color = None
+    pie.legend.background_fill_alpha=None
+    pie.legend.border_line_alpha=0
+    pie.legend.location='center_right'
+    pie.legend.label_text_font_size = "15px"
+            #pn.x_range.start = rowX*1.1+1
+    #pie.legend.click_policy="hide"
+    pie.title.text_font_size = '15px'
+    #pn.xaxis.major_label_text_font_style = 'bold'
+    pie.toolbar.autohide = True
+    pie.add_layout(labels)
+    return pie
+
 
 
 

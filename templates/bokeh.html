@@ -14,8 +14,9 @@
     {{ script|safe }}
     {{ script1|safe }}
     {{ script2|safe }}
-    {{ script3|safe}}
-    {{ script4|safe}}
+    {{ script3|safe }}
+    {{ script4|safe }}
+    {{ script5|safe }}
  
  <head>
 <h2 style='margin-left: 10px; margin-right:10px; text-align: center; font-style: italic; font-weight: bold'>
@@ -110,16 +111,35 @@ In 2011 Dublin had only 140 new properties registered reaching its lowest point 
 
 </div>
 </center>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px; margin-bottom: 0px;'>
 Another relevant insight this dataset provides is the high correlation between new and existing properties transactions.
 There are various articles published that stressed the growth of cash-only sales in Ireland, although there is not enough data available to verify this tendency, 
 despite that the CSO also provided data on the number of buyers that are non-occupier, non-householder or former owner occupier(2nd mortgage) throughout the years,
  i.e., those are utilizing the housing market as an investment and influencing the rental and sales prices to increase. Unite Nations has sent a letter to the Irish government describing the situation as <spam style='font-style: italic'>“moderately unaffordable”</spam>.<br>
 The number of non-occupier buyers in fact propelled the Irish Housing Market, with a high deviation from 2013 with 8478 transactions to 12799 in 2014(50.7%).
 </p>
-
+<center>
+<div class='bokeh'>
+    {{ div5|safe }}
+</div>
+</center>
+<p><img style='width: 30%; height: 30%; float: left; align: bottom; margin-top: 7px;' src={{url_for('static', filename='images/CorrelationTotals1.png')}}>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+In the chart above it is noticeable how the total of non-occupiers has been a considerable share in the overall transactions, with emphasis between 2010 to 2013 where 
+those buyers would take advantage of a fragile market; from 2014 onwards a strong consistency. These buyers are more focused in the existing properties, which will mostly 
+be redesigned to accommodate more people, allowing these investments to be capitalized in a shorter time. The total of transactions registered and the total of non-occupier 
+transactions registered had a strong correlation between them, as the correlation chart on the left verifies, which supports the fact that those investments are inflating the housing market.
+</p>
 
 <td width=45%; valign='top';>
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Demand</h5>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'> Population </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+The CSO using data from Census 2016 produced a dataset of the Irish population by counties. In 2016 Ireland had a population of 4,761,865 people.
+With panda's groupby, Bokeh and GeoJson(GIS), it is possible to visualize how the Irish population is divided, and the most density populated areas. 
+Dublin had 1,461 people per km2, and consisted 28.3% of the Irish population in 2106, while comprising only 1.09% of the country's territory, 
+followed by Cork with 11.4% of the country's population although with a demographic density of 72.4 people per km2.
+</p>
 
 </tb>
 </body>
