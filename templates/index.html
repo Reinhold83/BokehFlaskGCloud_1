@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+       <!-- Bootstrap includes-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="/static/css/styles1.css" rel="stylesheet">
+       <!-- Bokeh includes-->
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
+
+    <nav class="mb-1 navbar navbar-expand-lg navbar-expand-lg default-color">
+        <a class="navbar-brand" href="#"><img src="/static/images/LogoRN.png" height="30" alt="LogoRN"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-toggle="#navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggle-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-brand mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for("index")}}">Home <span class="sr-only">(current)</span></a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for("bokeh")}}">About</a></li>
+
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" id="navbar DropdownMenuLInk-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+                <div class="dropdown-menu dropdown-default" aira-labelledby="navbar DropdownMenuLink-333">
+                    <a class="dropdown-item" href="{{waste}}"> Analysis E.U. Domestic Waste</a>
+                    <a class="dropdown-item" href="{{bokeh}}">Analysis Irish Housing Market</a>
+                    <a class="dropdown-item" href="{{f1}}">Analysis F1 2019</a>
+                
+                <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-lights">
+                        <i class="fab fa-linkedin-in"></i></a></li>
+        </div>
+            </ul>
+                </div>
+                </ul>
+    </nav>

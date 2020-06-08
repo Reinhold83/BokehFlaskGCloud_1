@@ -338,10 +338,3 @@ def pie_chart():
     pie.toolbar.autohide = True
     pie.add_layout(labels)
     return pie
-
-
-
-
-
-
-

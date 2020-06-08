@@ -13,6 +13,10 @@ Bootstrap(app)
 #    return render_template('index.html')
 
 @app.route('/')
+def index():
+    return render_template('layout.html')
+
+@app.route('/bokeh')
 def bokeh():
     script, div = components(houseStockPlot())
     script1, div1 = components(vacantPlot())
