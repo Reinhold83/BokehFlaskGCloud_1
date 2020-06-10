@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-       <!-- Bootstrap includes-->
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+       <!-- Bootstrap includes
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
        <!-- Bokeh includes-->
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
@@ -21,9 +24,7 @@
     {{ script4|safe }}
     {{ script5|safe }}
  
-
- 
- <head>
+<body>
  
 <h2 style='margin-left: 10px; margin-right:10px; text-align: center; font-style: italic; font-weight: bold'>
 Analyses and visualisation of the Irish Housing Market</h2>
@@ -33,10 +34,8 @@ Analyses and visualisation of the Irish Housing Market</h2>
 amongst other bodies. The aim is to understand the reasons for the housing crisis and the implications
 of the housing crisis in Ireland. The projects aim is to find a possible solution from the insights gathered.
 </p>
- </head>
 
 
- <body>
  <table width=100% height=95%>
  <tr><td width=45%>
  <h5 style='margin: 7px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Introduction </h5>
@@ -159,4 +158,4 @@ followed by Cork with 11.4% of the country's population although with a demograp
 
   
 
-</html>
+{% endblock %}
