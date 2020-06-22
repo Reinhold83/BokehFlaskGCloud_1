@@ -14,7 +14,7 @@ from bokeh.palettes import viridis
 from bokeh.resources import CDN
 from bokeh.embed import file_html
 
-#Functions/Plots
+
 def vacantPlot():
     dfvt = pd.read_csv('BokehApp/Data/HousesVacants.csv', delimiter='\t', header=0)
     
@@ -49,6 +49,7 @@ def vacantPlot():
     p.xaxis.major_label_text_font_style = 'bold'
     p.grid.grid_line_color=None
     p.toolbar.autohide = True
+    p.outline_line_color=None
     return p
 
 
@@ -79,6 +80,7 @@ def houseStockPlot():
     a2.xaxis.major_label_text_font_style = 'bold'
     a2.grid.grid_line_color=None
     a2.toolbar.autohide = True
+    a2.outline_line_color=None
     return a2
 
 def Transactions():
@@ -114,6 +116,7 @@ def Transactions():
     #pti.axis.major_label_text_font_style = 'bold'
     pti.xaxis.major_label_text_font_style = 'bold'
     pti.toolbar.autohide = True
+    #pti.outline_line_color=None
     return pti
 
 def NewRegistered():
@@ -143,6 +146,7 @@ def NewRegistered():
     #pti.axis.major_label_text_font_style = 'bold'
     pnr.xaxis.major_label_text_font_style = 'bold'
     pnr.toolbar.autohide = True
+    pnr.outline_line_color=None
     return pnr
 
 def nonOccupiers():
@@ -210,6 +214,7 @@ def nonOccupiers():
     pn3.xaxis.major_label_text_font_style = 'bold'
     pn3.xgrid.grid_line_color=None
     pn3.toolbar.autohide = True
+    pn3.outline_line_color=None
     #return pn3
     #show(pn3)
 
@@ -246,6 +251,7 @@ def nonOccupiers():
     pne.xaxis.major_label_text_font_style = 'bold'
     pne.xgrid.grid_line_color=None
     pne.toolbar.autohide = True
+    pne.outline_line_color=None
     #show(pne)
 
     dfn = pd.read_csv('BokehApp/Data/TT_nonOccupier.csv', delimiter='\t', index_col='Years')
@@ -281,6 +287,7 @@ def nonOccupiers():
     pn.xaxis.major_label_text_font_style = 'bold'
     pn.grid.grid_line_color=None
     pn.toolbar.autohide = True
+    pn.outline_line_color=None
     #show(pn)
     t1 = Panel(child=pn, title='Overview')
     t2 = Panel(child=pne, title='Type of sale')
@@ -336,5 +343,7 @@ def pie_chart():
     pie.title.text_font_size = '15px'
     #pn.xaxis.major_label_text_font_style = 'bold'
     pie.toolbar.autohide = True
+    pie.outline_line_color=None
     pie.add_layout(labels)
     return pie
+
