@@ -20,32 +20,32 @@ from bokeh.embed import file_html
 def maps():
     
     
-    p16 = figure(x_axis_location = None, y_axis_location = None, match_aspect=True, plot_width=600)
-    p16.image_url(url=['/static/images/pp16s.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
+    p16 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p16.image_url(url=['/static/images/pp16sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p16.title.align='center'    
     p16.grid.grid_line_color=None
     p16.outline_line_color=None
     p16.toolbar.autohide = True
     p16.title.text_font_style = "bold"
         
-    p11 = figure(x_axis_location = None, y_axis_location = None, match_aspect=True, plot_width=600)
-    p11.image_url(url=['/static/images/pp11s.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
+    p11 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p11.image_url(url=['/static/images/pp11sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p11.title.align='center'    
     p11.grid.grid_line_color=None
     p11.outline_line_color=None
     p11.toolbar.autohide = True
     p11.title.text_font_style = "bold"
 
-    p06 = figure(x_axis_location = None, y_axis_location = None, match_aspect=True, plot_width=600)
-    p06.image_url(url=['/static/images/pp06s.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
+    p06 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p06.image_url(url=['/static/images/pp06sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p06.title.align='center'    
     p06.grid.grid_line_color=None
     p06.outline_line_color=None
     p06.toolbar.autohide = True
     p06.title.text_font_style = "bold"
 
-    p02 = figure(x_axis_location = None, y_axis_location = None, match_aspect=True, plot_width=600)
-    p02.image_url(url=['/static/images/pp02s.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
+    p02 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p02.image_url(url=['/static/images/pp02sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p02.title.align='center'    
     p02.grid.grid_line_color=None
     p02.outline_line_color=None
@@ -70,55 +70,57 @@ def ageGroup():
     ys= list(df.index.unique())
     source = ColumnDataSource(data=dict(y=ys,x02f=df_pivot1.loc['female']['2002'],x02m=df_pivot1.loc['male']['2002'],x06f=df_pivot1.loc['female']['2006'],x06m=df_pivot1.loc['male']['2006'], x11f=df_pivot1.loc['female']['2011'],x11m=df_pivot1.loc['male']['2011'],x16f=df_pivot1.loc['female']['2016'],x16m=df_pivot1.loc['male']['2016']))
 
-    #plot fig left
-    p = figure(y_axis_location = None, match_aspect=True, y_range=ys)
-    p.hbar(y="y", height=1, right='x02m', legend=value('male'),source=source, line_color="white", fill_color='#FDE724')
+    #tick_labels_g = {'01 - 01':'0 - 1','01 - 04':'1 - 4','05 - 09':'5 - 9','85_+':'85+'}
+
+    #plots
+    
+    #plot fig right
+    p2m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
+    p2m.hbar(y="y", height=1, right='x02m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
 
     #plot style
-    hoverp = HoverTool()
-    hoverp.tooltips=[('Population', '@x02m')]
-    p.add_tools(hoverp)
-    p.x_range.flipped = True
-    p.grid.grid_line_color=None
-    p.outline_line_color=None
-    p.x_range.range_padding = 0
-    p.axis.major_label_text_font_style = 'bold'
-    p.toolbar.autohide = True
-    p.axis.axis_line_color = None
-    p.legend.location = 'top_left'
-    p.legend.background_fill_alpha = None
-    p.legend.border_line_color = None
+    hoverp2m = HoverTool()
+    hoverp2m.tooltips=[('Population', '@x02m')]
+    p2m.add_tools(hoverp2m)
+    p2m.x_range.flipped = True
+    p2m.grid.grid_line_color=None
+    p2m.outline_line_color=None
+    p2m.x_range.range_padding = 0
+    p2m.axis.major_label_text_font_style = 'bold'
+    p2m.toolbar.autohide = True
+    p2m.axis.axis_line_color = None
+    p2m.legend.location = 'top_left'
+    p2m.legend.background_fill_alpha = None
+    p2m.legend.border_line_color = None
+
+
+    #plot fig left
+    p2f = figure(plot_height=300, plot_width=270, y_range=ys)
+    p2f.hbar(y="y", height=1, right='x02f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
+
+    hoverp2f = HoverTool()
+    hoverp2f.tooltips=[('Population', '@x02f')]
+
+    #plot style
+    p2f.add_tools(hoverp2f)
+    p2f.legend.background_fill_alpha = None
+    p2f.legend.border_line_color = None
+    p2f.yaxis.major_label_standoff = -1
+    p2f.yaxis.major_label_text_font_size = '8pt'
+    p2f.grid.grid_line_color=None
+    p2f.outline_line_color=None
+    p2f.yaxis.major_label_text_align = 'center'
+    p2f.axis.major_label_text_font_style = 'bold'
+    p2f.yaxis.major_tick_line_color = None
+    p2f.axis.axis_line_color = None
+    p2f.min_border = 0
+    p2f.x_range.range_padding = 0
+    p2f.toolbar.autohide = True
+    p2f.yaxis.major_label_standoff = 0
 
 
     #plot fig right
-    #y02max, y02min = df_pivot1.loc['female']['2002'].max(), df_pivot1.loc['female']['2002'].min()
-    p1 = figure(match_aspect=True, y_range=ys)
-    p1.hbar(y="y", height=1, right='x02f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
-
-    hoverp1 = HoverTool()
-    hoverp1.tooltips=[('Population', '@x02f')]
-
-    #plot style
-    p1.add_tools(hoverp1)
-    p1.legend.background_fill_alpha = None
-    p1.legend.border_line_color = None
-    p1.yaxis.major_label_standoff = -1
-    p1.yaxis.major_label_text_font_size = '8pt'
-    p1.grid.grid_line_color=None
-    p1.outline_line_color=None
-    p1.yaxis.major_label_text_align = 'center'
-    p1.axis.major_label_text_font_style = 'bold'
-    p1.yaxis.major_tick_line_color = None
-    p1.axis.axis_line_color = None
-    p1.min_border = 0
-    p1.x_range.range_padding = 0
-    p1.toolbar.autohide = True
-    p1.yaxis.major_label_standoff = 0
-
-
-
-    #plot fig left
-    p6m = figure(y_axis_location = None, match_aspect=True, y_range=ys)
+    p6m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
     p6m.hbar(y="y", height=1, right='x06m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
 
     #plot style
@@ -137,8 +139,8 @@ def ageGroup():
     p6m.legend.border_line_color = None
 
 
-    #plot fig right
-    p6f = figure(match_aspect=True, y_range=ys)
+    #plot fig left
+    p6f = figure(plot_height=300, plot_width=270, y_range=ys)
     p6f.hbar(y="y", height=1, right='x06f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
 
     hoverp6f = HoverTool()
@@ -161,8 +163,8 @@ def ageGroup():
     p6f.toolbar.autohide = True
     p6f.yaxis.major_label_standoff = 0
 
-    #plot fig left
-    p11m = figure(y_axis_location = None, match_aspect=True, y_range=ys)
+    #plot fig right
+    p11m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
     p11m.hbar(y="y", height=1, right='x11m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
     hoverp11m = HoverTool()
     hoverp11m.tooltips=[('Population', '@x11m')]
@@ -181,8 +183,8 @@ def ageGroup():
     p11m.legend.border_line_color = None
 
 
-    #plot fig right
-    p11f = figure(match_aspect=True, y_range=ys)
+    #plot fig left
+    p11f = figure(plot_height=300, plot_width=270, y_range=ys)
     p11f.hbar(y="y", height=1, right='x11f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
 
     hoverp11f = HoverTool()
@@ -206,8 +208,8 @@ def ageGroup():
     p11f.yaxis.major_label_standoff = 0
 
 
-    #plot fig left
-    p16m = figure(y_axis_location = None, match_aspect=True, y_range=ys)
+    #plot fig right
+    p16m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
     p16m.hbar(y="y", height=1, right='x16m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
     hoverp16m = HoverTool()
     hoverp16m.tooltips=[('Population', '@x16m')]
@@ -228,21 +230,22 @@ def ageGroup():
     p16m.legend.border_line_color = None
 
 
-    #plot fig right
-    p16f = figure(match_aspect=True, y_range=ys)
+    #plot fig left
+    p16f = figure(plot_height=300, plot_width=270, y_range=ys)
     p16f.hbar(y="y", height=1, right='x16f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
 
     hoverp16f = HoverTool()
     hoverp16f.tooltips=[('Population', '@x16f')]
     p16f.add_tools(hoverp16f)
 
-    #plot style
+    
     #p16m.title_location = 'above'
     #p16m.title.align = 'left'
     #p16m.title.text_font_size = '12pt'
     #p16m.title.text_font_style = 'bold'
 
-
+    #plot style
+    #p16f.yaxis.major_label_overrides = tick_labels_g
     p16f.legend.background_fill_alpha = None
     p16f.legend.border_line_color = None
     p16f.yaxis.major_label_standoff = -1
@@ -263,10 +266,10 @@ def ageGroup():
     #Divs for griplot
 
     #Gridplots
-    p02 = gridplot([[p, p1]], plot_width=350, toolbar_location='right', merge_tools=True)   
-    p06 = gridplot([[p6m, p6f]], plot_width=350, toolbar_location='right', merge_tools=True)
-    p11 = gridplot([[p11m, p11f]], plot_width=350, toolbar_location='right', merge_tools=True)
-    p16 = gridplot([[p16m, p16f]], plot_width=350, toolbar_location='right', merge_tools=True)
+    p02 = gridplot([[p2m, p2f]], toolbar_location='right', merge_tools=True)   
+    p06 = gridplot([[p6m, p6f]], toolbar_location='right', merge_tools=True)
+    p11 = gridplot([[p11m, p11f]], toolbar_location='right', merge_tools=True)
+    p16 = gridplot([[p16m, p16f]], toolbar_location='right', merge_tools=True)
 
 
 
