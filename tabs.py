@@ -9,7 +9,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, ColorBar, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LabelSet, GeoJSONDataSource, LinearColorMapper, Tabs, Panel, HoverTool, Div
+from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -282,3 +282,51 @@ def ageGroup():
 
 
     return tabs
+
+
+
+def popByGroup():
+    df1 = pd.read_csv('BokehApp/Data/ageGroupYear.csv', delimiter=',', index_col='Age Groups')
+    df1['color'] = viridis(len(df1.index))
+
+    source = ColumnDataSource(data=dict(x=df1.index, _2009=df1['2009'], _2010=df1['2010'], _2011=df1['2011'], _2012=df1['2012'], _2013=df1['2013'], _2014=df1['2014'], _2015=df1['2015'],  _2016=df1['2016'], _2017=df1['2017'], _2018=df1['2018'], c=df1['color'], _2009a=df1['2009']))
+    source1 = ColumnDataSource(data=dict(x=df1.index, _2016=df1['2016'],c=df1['color']))
+
+
+    p = figure(x_range=list(df1.index.values), plot_height=350, plot_width=550,title='Irish Population Breakdown by Age Group', tools='pan, wheel_zoom, box_zoom, reset')
+    p.vbar(x='x', top='_2009a', width=0.5, source=source, color='c')
+
+    #plot style
+    p.xaxis.major_label_orientation = 45
+    p.grid.grid_line_color=None
+    p.outline_line_color=None
+    p.axis.major_label_text_font_style = 'bold'
+    p.toolbar.autohide = True
+
+    hoverp = HoverTool()
+    hoverp.tooltips=[('Group Population', '@_2009a')]
+    p.add_tools(hoverp)
+
+
+    tick_labels_p = {'100':'100K','200':'200K','300':'300K','400':'400K'}
+    p.yaxis.major_label_overrides = tick_labels_p
+
+    select = Select(title="Year:", align='start', value='_2009a', width=80, height=30, options=['_2009','_2010', '_2011', '_2012','_2013','_2014','_2015','_2016','_2017','_2018'])
+    callback = CustomJS(args={'source':source},code="""
+            console.log(' changed selected option', cb_obj.value);
+
+            var data = source.data;
+
+            // allocate column
+            data['_2009a'] = data[cb_obj.value];
+
+
+            // register the change 
+            source.change.emit();
+    """)
+
+    select.callback = callback
+
+
+    layout = row(select,p)
+    return layout

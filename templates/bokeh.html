@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
        <!-- Bokeh includes-->
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.js"></script>
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
     <link href="/static/styles1.css" rel="stylesheet">
@@ -27,6 +29,7 @@
     {{ script5|safe }}
     {{ script6|safe }}
     {{ script7|safe }}
+    {{ script8|safe }}
  
 <body>
  
@@ -177,7 +180,11 @@ followed by Cork with 11.4% of the country's population although with a demograp
     </div>
 </center>
 
-
+<center>
+    <div class='bokeh'>
+        {{ div8|safe }}
+    </div>
+</center>
 
 
 <td width=45%; valign='top';>
