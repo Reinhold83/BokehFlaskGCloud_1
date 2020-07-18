@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from bokeh.embed import components
 from plots1 import houseStockPlot, vacantPlot, Transactions, NewRegistered, nonOccupiers, pie_chart
-from tabs import maps, ageGroup, popByGroup
+from tabs import maps, ageGroup, popOverall
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
@@ -41,7 +41,7 @@ def bokeh():
     script5, div5 = components(pie_chart())
     script6, div6 = components(maps())
     script7, div7 = components(ageGroup())
-    script8, div8 = components(popByGroup())
+    script8, div8 = components(popOverall())
 
 
     return render_template('bokeh.html', script=script, div=div, script1=script1,

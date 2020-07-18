@@ -9,7 +9,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS
+from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -329,4 +329,99 @@ def popByGroup():
 
 
     layout = row(select,p)
+    return layout
+
+def popOverall():
+    df1 = pd.read_csv('BokehApp/Data/ageGroupYear.csv', delimiter=',')
+    df1['color'] = viridis(len(df1.index))
+    df1['2009.'] = df1['2009'].values
+
+    source1 = ColumnDataSource(data=dict(df1))
+
+
+    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=280, plot_width=430,title='Irish Population Breakdown by Age Group',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    p1.vbar(x='Age Groups', top='2009.', width=0.5, source=source1, color='color')
+
+    #plot style
+    p1.xaxis.major_label_orientation = 45
+    #p1.grid.grid_line_color=None
+    p1.outline_line_color=None
+    p1.axis.major_label_text_font_style = 'bold'
+    #p1.toolbar.autohide = True
+    p1.grid.grid_line_dash = 'dotted'
+    p1.grid.grid_line_dash_offset = 5
+    p1.grid.grid_line_width = 2
+
+    hoverp1 = HoverTool()
+    hoverp1.tooltips=[('Group Population', '@2009')]
+    p1.add_tools(hoverp1)
+
+
+    tick_labels_p1 = {'100':'100K','200':'200K','300':'300K','400':'400K'}
+    p1.yaxis.major_label_overrides = tick_labels_p1
+    
+
+    df = pd.read_csv('BokehApp/Data/OverAll.csv', delimiter=',', index_col='Year')
+    df['color'] = viridis(len(df.index))
+
+
+    xrange = (2009,2018)
+    xrange
+    yrange = (df['Population'].min(), df['Population'].max())
+
+    source = ColumnDataSource(df)
+
+
+    p = figure(plot_height=280, plot_width=430,title='Irish Population Growth by Year',
+               y_range=Range1d(*yrange),tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
+
+    p.vbar(x='Year', top='Population', source=source, width=0.5, color='color')
+    
+    #plot style
+    #p.xaxis.major_label_orientation = 45
+    #p.grid.grid_line_color=None
+    #p.x_range.start = 2009
+    p.x_range.end = 2018.5
+    p.y_range.start = 4500
+    p.y_range.end = df['Population'].max()*1.003
+    p.outline_line_color=None
+    p.axis.major_label_text_font_style = 'bold'
+    p.toolbar.autohide = True
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+    p.toolbar.autohide=True
+    #p.yaxis.axis_line_color = None
+
+    hoverp = HoverTool()
+    hoverp.tooltips=[('Year','@Year'),('Population', '@Population{int}')]
+    p.add_tools(hoverp)
+
+
+    tick_labels_p = {'4500':'450M','4550':'455M','4600':'460M','4650':'465M','4700':'470M','4750':'475M', '4800':'480M','4850':'485M'}
+    p.yaxis.major_label_overrides = tick_labels_p
+
+
+    select = Select(title="Year:", align='center', value='2009.', width=60, height=25, options=['2009','2010', '2011', '2012','2013','2014','2015','2016','2017','2018'])
+    p1.title.text = 'Irish Population by Age Group ' +  str(select.value)
+
+    callback = CustomJS(args={'source':source1, 'title':p1.title},code="""
+            console.log(' changed selected option', cb_obj.value);
+
+            var data = source.data;
+            title.text = 'Irish Population by Age Group ' + cb_obj.value
+
+            // allocate column
+            data['2009.'] = data[cb_obj.value];
+
+
+
+            // register the change 
+            source.change.emit()""")
+
+    select.callback = callback
+
+
+    layout = row(p,select, p1, margin=5) 
     return layout
