@@ -17,7 +17,6 @@ from bokeh.embed import file_html
 
 def vacantPlot():
     dfvt = pd.read_csv('BokehApp/Data/HousesVacants.csv', delimiter='\t', header=0)
-    
     dfvt = dfvt.iloc[:4]
     dfv = dfvt[['Type', 'Dublin city & suburbs','Rural']]
     dfv['Other cities'] = dfvt.iloc[:, 2:-2].sum(axis=1)
@@ -29,7 +28,7 @@ def vacantPlot():
     lDict = {'For Sale': xLabel, 'Deceased':xLabel, 'Vacant Long Term':xLabel, 'Rental Property':xLabel}
     source = ColumnDataSource(data=dict(x= list(dfv.index.values), y=dfv['Dublin&Suburbs'], y1=dfv['Other cities'], y2=dfv['Rural']))
 
-    p = figure(x_range=FactorRange(*lDict), plot_height=350, plot_width=550, title='Vacant properties in Ireland 2016', x_axis_label=None, y_axis_label='amount of vacant properties', tools = 'pan, wheel_zoom, box_zoom, reset')
+    p = figure(x_range=FactorRange(*lDict), plot_height=350, plot_width=550, title='Vacant properties in Ireland 2016', x_axis_label=None, y_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
     hover = HoverTool()
     hover.tooltips=[('Vacant properties', 'Dublin @y / Others @y1 / Rural @y2')]
     p.add_tools(hover)
@@ -47,7 +46,11 @@ def vacantPlot():
     p.legend.click_policy="hide"
     p.title.text_font_size = '15px'
     p.xaxis.major_label_text_font_style = 'bold'
-    p.grid.grid_line_color=None
+    p.grid.grid_line_alpha = 0.6
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+    #p.grid.grid_line_color=None
     p.toolbar.autohide = True
     p.outline_line_color=None
     return p
@@ -105,7 +108,11 @@ def Transactions():
 
     pti.legend.location='bottom_right'
     pti.y_range.range_padding = 0.02
-    pti.grid.grid_line_color = None
+    #pti.grid.grid_line_color = None
+    pti.grid.grid_line_alpha = 0.6
+    pti.grid.grid_line_dash = 'dotted'
+    pti.grid.grid_line_dash_offset = 5
+    pti.grid.grid_line_width = 2
     tick_labels_pti = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K'}
     pti.xaxis.major_label_overrides = tick_labels_pti
     pti.legend.background_fill_alpha=None
@@ -135,7 +142,7 @@ def NewRegistered():
 
     pnr.legend.location='top_right'
     #pnr.y_range.range_padding = 0.02
-    pnr.xgrid.grid_line_color = None
+    #pnr.xgrid.grid_line_color = None
     tick_labels_pnr = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K', '60000':'60K'}
     pnr.yaxis.major_label_overrides = tick_labels_pnr
     #pnr.legend.background_fill_alpha=None
@@ -147,6 +154,11 @@ def NewRegistered():
     pnr.xaxis.major_label_text_font_style = 'bold'
     pnr.toolbar.autohide = True
     pnr.outline_line_color=None
+    pnr.grid.grid_line_alpha = 0.6
+    pnr.grid.grid_line_dash = 'dotted'
+    pnr.grid.grid_line_dash_offset = 5
+    pnr.grid.grid_line_width = 2
+
     return pnr
 
 def nonOccupiers():
@@ -212,9 +224,15 @@ def nonOccupiers():
     pn3.legend.click_policy="hide"
     pn3.title.text_font_size = '15px'
     pn3.xaxis.major_label_text_font_style = 'bold'
-    pn3.xgrid.grid_line_color=None
+    #pn3.xgrid.grid_line_color=None
+    pn3.grid.grid_line_alpha = 0.6
+    pn3.grid.grid_line_dash = 'dotted'
+    pn3.grid.grid_line_dash_offset = 5
+    pn3.grid.grid_line_width = 2
     pn3.toolbar.autohide = True
     pn3.outline_line_color=None
+    pn3.legend.background_fill_alpha=None
+    pn3.legend.border_line_alpha=0
     #return pn3
     #show(pn3)
 
@@ -249,7 +267,11 @@ def nonOccupiers():
     pne.legend.click_policy="hide"
     pne.title.text_font_size = '15px'
     pne.xaxis.major_label_text_font_style = 'bold'
-    pne.xgrid.grid_line_color=None
+    #pne.xgrid.grid_line_color=None
+    pne.grid.grid_line_alpha = 0.6
+    pne.grid.grid_line_dash = 'dotted'
+    pne.grid.grid_line_dash_offset = 5
+    pne.grid.grid_line_width = 2
     pne.toolbar.autohide = True
     pne.outline_line_color=None
     #show(pne)
@@ -285,7 +307,11 @@ def nonOccupiers():
     pn.legend.click_policy="hide"
     pn.title.text_font_size = '15px'
     pn.xaxis.major_label_text_font_style = 'bold'
-    pn.grid.grid_line_color=None
+    #pn.grid.grid_line_color=None
+    pn.grid.grid_line_alpha = 0.6
+    pn.grid.grid_line_dash = 'dotted'
+    pn.grid.grid_line_dash_offset = 5
+    pn.grid.grid_line_width = 2
     pn.toolbar.autohide = True
     pn.outline_line_color=None
     #show(pn)

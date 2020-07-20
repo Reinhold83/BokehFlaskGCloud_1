@@ -220,6 +220,7 @@ def ageGroup():
    
     p16m.x_range.flipped = True
     p16m.grid.grid_line_color=None
+    
     p16m.outline_line_color=None
     p16m.x_range.range_padding = 0
     p16m.axis.major_label_text_font_style = 'bold'
@@ -251,6 +252,7 @@ def ageGroup():
     p16f.yaxis.major_label_standoff = -1
     p16f.yaxis.major_label_text_font_size = '8pt'
     p16f.grid.grid_line_color=None
+    
     p16f.outline_line_color=None
     p16f.yaxis.major_label_text_align = 'center'
     p16f.axis.major_label_text_font_style = 'bold'
@@ -260,6 +262,7 @@ def ageGroup():
     p16f.x_range.range_padding = 0
     p16f.toolbar.autohide = True
     p16f.yaxis.major_label_standoff = 0
+
 
 
 
@@ -339,16 +342,18 @@ def popOverall():
     source1 = ColumnDataSource(data=dict(df1))
 
 
-    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=280, plot_width=430,title='Irish Population Breakdown by Age Group',
+    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=300, plot_width=500,title='Irish Population Breakdown by Age Group',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     p1.vbar(x='Age Groups', top='2009.', width=0.5, source=source1, color='color')
 
     #plot style
     p1.xaxis.major_label_orientation = 45
+    
     #p1.grid.grid_line_color=None
     p1.outline_line_color=None
     p1.axis.major_label_text_font_style = 'bold'
     #p1.toolbar.autohide = True
+    p1.grid.grid_line_alpha = 0.6
     p1.grid.grid_line_dash = 'dotted'
     p1.grid.grid_line_dash_offset = 5
     p1.grid.grid_line_width = 2
@@ -373,7 +378,7 @@ def popOverall():
     source = ColumnDataSource(df)
 
 
-    p = figure(plot_height=280, plot_width=430,title='Irish Population Growth by Year',
+    p = figure(plot_height=300, plot_width=400,title='Irish Population Growth by Year',
                y_range=Range1d(*yrange),tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
 
     p.vbar(x='Year', top='Population', source=source, width=0.5, color='color')
@@ -383,6 +388,7 @@ def popOverall():
     #p.grid.grid_line_color=None
     #p.x_range.start = 2009
     p.x_range.end = 2018.5
+    p.grid.grid_line_alpha = 0.6
     p.y_range.start = 4500
     p.y_range.end = df['Population'].max()*1.003
     p.outline_line_color=None
@@ -425,3 +431,102 @@ def popOverall():
 
     layout = row(p,select, p1, margin=5) 
     return layout
+
+def naturalincrease():
+    df = pd.read_csv('BokehApp/Data/PopChange.csv', delimiter=',', index_col='Components')
+    df = df.iloc[:-2].T
+
+    source = ColumnDataSource(data=dict(x=df.index, y=df['Annual births'], y2=df['Annual deaths'], y3=df['Natural increase']))
+    xp = '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
+
+    p = figure(x_range=xp, title='Natural Increase', plot_width=550, plot_height=350, tools='pan, wheel_zoom, box_zoom, reset')
+    p.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source, legend=value('Annual births'))
+    p.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source, legend=value('Annual deaths'))
+    p.line(x='x', y='y3', line_width=2.5, line_color='#208F8C', source=source, legend=value('Natural increase'))
+    p.circle(x='x', y='y', size=5, color='#B2DD2C', source=source, legend=value('Annual births'))
+    p.circle(x='x', y='y2', size=5, color='#365A8C', source=source, legend=value('Annual deaths'))#365A8C
+    p.circle(x='x', y='y3', size=5, color='#3E4989', source=source, legend=value('Natural increase'))
+
+    tick_labels_p = {'30':'30K','40':'40K','50':'50K','60':'60K','70':'70K'}
+    p.yaxis.major_label_overrides = tick_labels_p
+
+    hoverp = HoverTool()
+    hoverp.tooltips=[('Year', '@x'), ('Annual births', '@y'), ('Annual deaths','@y2'), ('Natural increase','@y3')]
+    p.add_tools(hoverp)
+
+    p.legend.border_line_alpha=0
+    p.legend.location = (360,220)
+    p.legend.background_fill_alpha = None
+    p.legend.label_text_font_size = "11px"
+    p.legend.click_policy="hide"
+    p.title.text_font_size = '15px'
+        #pti.axis.major_label_text_font_style = 'bold'
+    p.xaxis.major_label_text_font_style = 'bold'
+
+    p.outline_line_color=None
+    p.axis.major_label_text_font_style = 'bold'
+    #p1.toolbar.autohide = True
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+    p.grid.grid_line_alpha = 0.6
+    p.toolbar.autohide = True
+
+
+    return p
+
+
+def netMigration():
+    df = pd.read_csv('BokehApp/Data/PopChange.csv', delimiter=',', index_col='Components')
+    df1 = df.iloc[3:].T
+    
+    source1 = ColumnDataSource(data=dict(x=df1.index, y=df1['Immigrants'], y2=df1['Emigrants']))
+    xp1 = '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
+
+    p1 = figure(x_range=xp1, title='Net Migration', plot_width=550, plot_height=350, tools='pan, wheel_zoom, box_zoom, reset')
+    p1.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source1, legend=value('Immigrants'))
+    p1.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source1, legend=value('Emigrants'))
+
+    p1.circle(x='x', y='y', size=5, color='#B2DD2C', source=source1, legend=value('Immigrants'))
+    p1.circle(x='x', y='y2', size=5, color='#365A8C', source=source1, legend=value('Emigrants'))
+
+    tick_labels_p1 = {'40':'40K','50':'50K','60':'60K','70':'70K','80':'80K','90':'90K','100':'100K','110':'110K'}
+    p1.yaxis.major_label_overrides = tick_labels_p1
+
+    hoverp1 = HoverTool()
+    hoverp1.tooltips=[('Year', '@x'), ('Immigrants', '@y'), ('Emigrants','@y2')]
+    p1.add_tools(hoverp1)
+
+    p1.legend.border_line_alpha=0
+    p1.legend.background_fill_alpha = None
+    p1.legend.label_text_font_size = "11px"
+    p1.legend.click_policy="hide"
+    p1.title.text_font_size = '15px'
+        #pti.axis.major_label_text_font_style = 'bold'
+    p1.xaxis.major_label_text_font_style = 'bold'
+
+    p1.outline_line_color=None
+    p1.axis.major_label_text_font_style = 'bold'
+    #p1.toolbar.autohide = True
+    p1.grid.grid_line_dash = 'dotted'
+    p1.grid.grid_line_dash_offset = 5
+    p1.grid.grid_line_width = 2
+    p1.grid.grid_line_alpha = 0.6
+    p1.toolbar.autohide = True
+
+    return p1
+
+def mapDev():
+    
+    
+    p = figure(x_axis_location = None, y_axis_location = None, plot_width=430, plot_height=650) #, match_aspect=True
+    p.image_url(url=['/static/images/devmapS.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
+    p.title.align='center'    
+    p.grid.grid_line_color=None
+    p.outline_line_color=None
+    p.toolbar.autohide = True
+    #p.toolbar.Save = None
+    #p.tools = ['pan, wheel_zoom, box_zoom, reset']
+    p.title.text_font_style = "bold"
+
+    return p
