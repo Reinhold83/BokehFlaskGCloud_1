@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
+app.config['SECRET_KEY'] = '--'
 #app.static_folder = 'static'
 Bootstrap(app)
 #@app.route('/')
